@@ -16,8 +16,6 @@ namespace TransparentWall
         internal static Ref<PluginConfig> config;
         internal static IConfigProvider configProvider;
 
-        private GameScenesManager _scenesManager;
-
         public static bool IsAnythingOn
         {
             get
@@ -54,45 +52,19 @@ namespace TransparentWall
 
         public void OnApplicationStart()
         {
-            Logger.log.Debug("OnApplicationStart");
-
-            SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
+            Logger.log.Notice($"{Plugin.PluginName} has started");
         }
 
         public void OnApplicationQuit()
         {
-            Logger.log.Debug("OnApplicationQuit");
-
-            SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
-            if (_scenesManager != null)
-            {
-                _scenesManager.transitionDidFinishEvent -= SceneTransitionDidFinish;
-            }
-        }
-
-        private void SceneManagerOnActiveSceneChanged(Scene arg0, Scene scene)
-        {
-            if (_scenesManager == null)
-            {
-                _scenesManager = Resources.FindObjectsOfTypeAll<GameScenesManager>().FirstOrDefault();
-
-                if (_scenesManager != null)
-                {
-                    _scenesManager.transitionDidFinishEvent += SceneTransitionDidFinish;
-                }
-            }
-        }
-
-        private void SceneTransitionDidFinish()
-        {
-            if (SceneManager.GetActiveScene().name == "GameCore")
-            {
-                new GameObject(Plugin.PluginName).AddComponent<TransparentWall>();
-            }
         }
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
+            if (nextScene.name == "GameCore")
+            {
+                new GameObject(Plugin.PluginName).AddComponent<TransparentWall>();
+            }
         }
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
