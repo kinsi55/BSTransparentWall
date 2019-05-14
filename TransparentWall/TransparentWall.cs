@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using BS_Utils.Gameplay;
+using LogLevel = IPA.Logging.Logger.Level;
 using UnityEngine;
 
 namespace TransparentWall
@@ -19,7 +20,7 @@ namespace TransparentWall
         {
             if (!Plugin.IsAnythingOn)
             {
-                Logger.log.Debug("Nothing is turned on!");
+                Logger.Log("Nothing is turned on!", LogLevel.Debug);
                 EnableScore();
                 return;
             }
@@ -41,11 +42,12 @@ namespace TransparentWall
                     _beatmapObjectSpawnController.obstacleDiStartMovementEvent += this.HandleObstacleDiStartMovementEvent;
                 }
 
-                setupCams();
+                StartCoroutine(setupCamerasCoroutine());
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"TransparentWall.Start() has thrown an exception: {ex.Message}\n{ex.StackTrace}");
+                Logger.Log($"TransparentWall.Start() has thrown an exception:" +
+                    $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
             }
         }
 
@@ -55,11 +57,6 @@ namespace TransparentWall
             {
                 _beatmapObjectSpawnController.obstacleDiStartMovementEvent -= this.HandleObstacleDiStartMovementEvent;
             }
-        }
-
-        private void setupCams()
-        {
-            StartCoroutine(setupCamerasCoroutine());
         }
 
         private IEnumerator<WaitForEndOfFrame> setupCamerasCoroutine()
@@ -91,7 +88,8 @@ namespace TransparentWall
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"TransparentWall.setupCamerasCoroutine() has thrown an exception: {ex.Message}\n{ex.StackTrace}");
+                Logger.Log($"TransparentWall.setupCamerasCoroutine() has thrown an exception:" +
+                    $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
             }
         }
 
@@ -106,7 +104,8 @@ namespace TransparentWall
             }
             catch (Exception ex)
             {
-                Logger.log.Error($"TransparentWall.HandleObstacleDiStartMovementEvent(BeatmapObjectSpawnController, ObstacleController) has thrown an exception: {ex.Message}\n{ex.StackTrace}");
+                Logger.Log($"TransparentWall.HandleObstacleDiStartMovementEvent(BeatmapObjectSpawnController, ObstacleController) has thrown an exception:" +
+                    $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
             }
         }
 
@@ -114,7 +113,7 @@ namespace TransparentWall
         {
             if (!Plugin.isScoreDisabled)
             {
-                Logger.log.Notice("TransparentWall is enabled in HMD. ScoreSubmission has been disabled.");
+                Logger.Log("TransparentWall is enabled in HMD. ScoreSubmission has been disabled.", LogLevel.Notice);
                 ScoreSubmission.ProlongedDisableSubmission("TransparentWall");
                 Plugin.isScoreDisabled = true;
             }
@@ -124,7 +123,7 @@ namespace TransparentWall
         {
             if (Plugin.isScoreDisabled)
             {
-                Logger.log.Notice("TransparentWall is disabled in HMD. ScoreSubmission has been re-enabled.");
+                Logger.Log("TransparentWall is disabled in HMD. ScoreSubmission has been re-enabled.", LogLevel.Notice);
                 ScoreSubmission.RemoveProlongedDisable("TransparentWall");
                 Plugin.isScoreDisabled = false;
             }

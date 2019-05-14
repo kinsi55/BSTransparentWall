@@ -2,6 +2,7 @@
 using CustomUI.Utilities;
 using CustomUI.MenuButton;
 using CustomUI.GameplaySettings;
+using LogLevel = IPA.Logging.Logger.Level;
 using UnityEngine;
 
 namespace TransparentWall
@@ -27,7 +28,7 @@ namespace TransparentWall
             hmdController.SetValue += delegate (bool value)
             {
                 ChangeTransparentWallState(value);
-                Logger.log.Debug($"'Enable in headset' (IsHMDOn) in the main settings is set to '{value}'");
+                Logger.Log($"'Enable in headset' (IsHMDOn) in the main settings is set to '{value}'", LogLevel.Debug);
             };
 
             livCameraController = subMenu.AddBool("Disable in LIVCamera");
@@ -35,7 +36,7 @@ namespace TransparentWall
             livCameraController.SetValue += delegate (bool value)
             {
                 Plugin.IsDisableInLIVCamera = value;
-                Logger.log.Debug($"'Disable in LIVCamera' (IsDisableLIVCameraWall) in the main settings is set to '{value}'");
+                Logger.Log($"'Disable in LIVCamera' (IsDisableLIVCameraWall) in the main settings is set to '{value}'", LogLevel.Debug);
             };
         }
 
@@ -50,7 +51,7 @@ namespace TransparentWall
             hmdToggle.OnToggle += ((bool value) =>
             {
                 Plugin.IsHMDOn = value;
-                Logger.log.Debug($"Toggle is very '{(value ? "toggled" : "untoggled")}! Value is now '{value}'");
+                Logger.Log($"Toggle is very '{(value ? "toggled" : "untoggled")}! Value is now '{value}'", LogLevel.Debug);
             });
         }
 
@@ -63,13 +64,10 @@ namespace TransparentWall
             MenuButtonUI.AddButton($"{Plugin.PluginName} toggle", delegate
             {
                 ChangeTransparentWallState(!Plugin.IsHMDOn);
-                Logger.log.Debug($"Button was brutally smashed! Value should now be '{Plugin.IsHMDOn}'");
+                Logger.Log($"Button was brutally smashed! Value should now be '{Plugin.IsHMDOn}'", LogLevel.Debug);
             });
         }
 
-        private static void ChangeTransparentWallState(bool state)
-        {
-            hmdToggle.SetToggleState(state);
-        }
+        private static void ChangeTransparentWallState(bool state) => hmdToggle.SetToggleState(state);
     }
 }

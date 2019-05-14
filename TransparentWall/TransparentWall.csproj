@@ -69,9 +69,5 @@
   <PropertyGroup>
     <PostBuildEvent>copy ".\TransparentWall.dll" "E:\Program Files (x86)\Steam\steamapps\common\Beat Saber\Plugins"</PostBuildEvent>
   </PropertyGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties manifest_1json__JsonSchema="https://github.com/beat-saber-modding-group/BSIPA-MetadataFileSchema/master/Schema.json" />
-    </VisualStudio>
-  </ProjectExtensions>
+  <ProjectExtensions />
 </Project>
