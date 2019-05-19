@@ -16,6 +16,8 @@ namespace TransparentWall
         internal static Ref<PluginConfig> config;
         internal static IConfigProvider configProvider;
 
+        internal static bool IsLoggerSet { get; private set; }
+
         public static bool IsAnythingOn => (Plugin.IsHMDOn || Plugin.IsDisableInLIVCamera);
 
         public static bool IsHMDOn
@@ -32,8 +34,12 @@ namespace TransparentWall
 
         public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider)
         {
-            Logger.log = logger;
-            Logger.Log("Logger prepared", LogLevel.Debug);
+            if (logger != null)
+            {
+                Logger.log = logger; //Set the BSIPA logger
+                Plugin.IsLoggerSet = true;
+                Logger.Log("Logger prepared", LogLevel.Debug);
+            }
 
             configProvider = cfgProvider;
             config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
