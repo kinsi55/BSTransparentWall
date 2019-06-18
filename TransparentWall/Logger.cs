@@ -8,9 +8,9 @@ namespace TransparentWall
     {
         internal static IPALogger log { private get; set; }
 
-        internal static void Log(string message, LogLevel severity)
+        internal static void Log(string message, LogLevel severity = LogLevel.Info)
         {
-            if (Plugin.IsLoggerSet) log.Log(severity, message);
+            if (log != null) log.Log(severity, message);
             else Console.WriteLine($"[{Plugin.PluginName}] ({severity.ToString()}): {message}");
         }
     }

@@ -76,20 +76,20 @@ namespace TransparentWall
                 mainCamera.cullingMask |= (1 << WallLayer);
             }
 
-            try
+            if (Plugin.IsDisableInLIVCamera)
             {
-                LIV.SDK.Unity.LIV.FindObjectsOfType<LIV.SDK.Unity.LIV>().Where(x => livNames.Contains(x.name)).ToList().ForEach(l =>
+                try
                 {
-                    if (Plugin.IsDisableInLIVCamera)
+                    LIV.SDK.Unity.LIV.FindObjectsOfType<LIV.SDK.Unity.LIV>().Where(x => livNames.Contains(x.name)).ToList().ForEach(l =>
                     {
                         LayersToMask.ForEach(i => { l.SpectatorLayerMask |= (1 << i); });
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"TransparentWall.setupCamerasCoroutine() has thrown an exception:" +
-                    $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log($"TransparentWall.setupCamerasCoroutine() has thrown an exception:" +
+                        $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
+                }
             }
         }
 
@@ -113,8 +113,8 @@ namespace TransparentWall
         {
             if (!Plugin.isScoreDisabled)
             {
-                Logger.Log("TransparentWall is enabled in HMD. ScoreSubmission has been disabled.", LogLevel.Notice);
-                ScoreSubmission.ProlongedDisableSubmission("TransparentWall");
+                Logger.Log("ScoreSubmission has been disabled.", LogLevel.Notice);
+                ScoreSubmission.ProlongedDisableSubmission(Plugin.PluginName);
                 Plugin.isScoreDisabled = true;
             }
         }
@@ -123,8 +123,8 @@ namespace TransparentWall
         {
             if (Plugin.isScoreDisabled)
             {
-                Logger.Log("TransparentWall is disabled in HMD. ScoreSubmission has been re-enabled.", LogLevel.Notice);
-                ScoreSubmission.RemoveProlongedDisable("TransparentWall");
+                Logger.Log("ScoreSubmission has been re-enabled.", LogLevel.Notice);
+                ScoreSubmission.RemoveProlongedDisable(Plugin.PluginName);
                 Plugin.isScoreDisabled = false;
             }
         }

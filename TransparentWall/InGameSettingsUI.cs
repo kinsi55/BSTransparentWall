@@ -13,8 +13,8 @@ namespace TransparentWall
         private static BoolViewController hmdController;
         private static BoolViewController livCameraController;
 
-        private static readonly Sprite optionIcon = UIUtilities.LoadSpriteFromResources(Plugin.PluginName + ".Properties.icetransparent.png");
-        private static readonly string disclaimer = "Enabling '" + Plugin.PluginName + "' in the headset will deactivate ScoreSubmission until this option is turned off!";
+        private static readonly Sprite optionIcon = UIUtilities.LoadSpriteFromResources($"{Plugin.PluginName}.Properties.icetransparent.png");
+        private static readonly string disclaimer = $"Enabling '{Plugin.PluginName}' in the headset will deactivate ScoreSubmission until this option is turned off!";
 
         /// <summary>
         /// Adds an additional submenu in the "Settings" page

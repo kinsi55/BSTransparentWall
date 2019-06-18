@@ -8,15 +8,13 @@ using UnityEngine.SceneManagement;
 
 namespace TransparentWall
 {
-    class Plugin : IBeatSaberPlugin
+    class Plugin : IBeatSaberPlugin, IDisablablePlugin
     {
         public static string PluginName = "TransparentWall";
         public static bool isScoreDisabled = false;
 
         internal static Ref<PluginConfig> config;
         internal static IConfigProvider configProvider;
-
-        internal static bool IsLoggerSet { get; private set; }
 
         public static bool IsAnythingOn => (Plugin.IsHMDOn || Plugin.IsDisableInLIVCamera);
 
@@ -36,8 +34,7 @@ namespace TransparentWall
         {
             if (logger != null)
             {
-                Logger.log = logger; //Set the BSIPA logger
-                Plugin.IsLoggerSet = true;
+                Logger.log = logger;
                 Logger.Log("Logger prepared", LogLevel.Debug);
             }
 
@@ -84,5 +81,16 @@ namespace TransparentWall
         public void OnSceneUnloaded(Scene scene) { }
         public void OnUpdate() { }
         public void OnFixedUpdate() { }
+
+        public void OnEnable() { }
+        public void OnDisable()
+        {
+            if (Plugin.isScoreDisabled)
+            {
+                Logger.Log("Re-enabling ScoreSubmission on plugin disable", LogLevel.Debug);
+                Plugin.isScoreDisabled = false;
+                BS_Utils.Gameplay.ScoreSubmission.RemoveProlongedDisable(Plugin.PluginName);
+            }
+        }
     }
 }
