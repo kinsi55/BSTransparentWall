@@ -29,7 +29,7 @@ namespace TransparentWall
             {
                 if (Resources.FindObjectsOfTypeAll<BeatmapObjectSpawnController>().Count() > 0)
                 {
-                    this._beatmapObjectSpawnController = Resources.FindObjectsOfTypeAll<BeatmapObjectSpawnController>().First();
+                    _beatmapObjectSpawnController = Resources.FindObjectsOfTypeAll<BeatmapObjectSpawnController>().First();
                 }
 
                 if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Count() > 0)
@@ -46,8 +46,7 @@ namespace TransparentWall
             }
             catch (Exception ex)
             {
-                Logger.Log($"TransparentWall.Start() has thrown an exception:" +
-                    $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
+                Logger.Log(ex, LogLevel.Error);
             }
         }
 
@@ -87,8 +86,7 @@ namespace TransparentWall
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"TransparentWall.setupCamerasCoroutine() has thrown an exception:" +
-                        $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
+                    Logger.Log(ex, LogLevel.Error);
                 }
             }
         }
@@ -104,8 +102,7 @@ namespace TransparentWall
             }
             catch (Exception ex)
             {
-                Logger.Log($"TransparentWall.HandleObstacleDiStartMovementEvent(BeatmapObjectSpawnController, ObstacleController) has thrown an exception:" +
-                    $" {ex.Message}\n{ex.StackTrace}", LogLevel.Error);
+                Logger.Log(ex, LogLevel.Error);
             }
         }
 
