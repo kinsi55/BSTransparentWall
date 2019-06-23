@@ -10,11 +10,12 @@ namespace TransparentWall
     public class InGameSettingsUI : MonoBehaviour
     {
         private static ToggleOption hmdToggle;
+        private static ToggleOption livCameraToggle;
         private static BoolViewController hmdController;
         private static BoolViewController livCameraController;
 
-        private static readonly Sprite optionIcon = UIUtilities.LoadSpriteFromResources($"{Plugin.PluginName}.Properties.icetransparent.png");
-        private static readonly string disclaimer = $"Enabling '{Plugin.PluginName}' in the headset will deactivate ScoreSubmission until this option is turned off!";
+        private static readonly Sprite optionIcon = UIUtilities.LoadSpriteFromResources($"{Plugin.PluginName}.Properties.icon_playersettings.png");
+        private static readonly string disclaimer = $"Enabling '{Plugin.PluginName}' in the headset\\VR will deactivate ScoreSubmission until this option is turned off!";
 
         /// <summary>
         /// Adds an additional submenu in the "Settings" page
@@ -23,7 +24,7 @@ namespace TransparentWall
         {
             SubMenu subMenu = SettingsUI.CreateSubMenu(Plugin.PluginName);
 
-            hmdController = subMenu.AddBool("Enable in headset", disclaimer);
+            hmdController = subMenu.AddBool("Enable in headset\\VR", $"Default = Off.\nDisclaimer: {disclaimer}");
             hmdController.GetValue += delegate { return Plugin.IsHMDOn; };
             hmdController.SetValue += delegate (bool value)
             {
@@ -31,11 +32,11 @@ namespace TransparentWall
                 Logger.Log($"'Enable in headset' (IsHMDOn) in the main settings is set to '{value}'", LogLevel.Debug);
             };
 
-            livCameraController = subMenu.AddBool("Disable in LIVCamera");
+            livCameraController = subMenu.AddBool("Disable in LIVCamera", "Default = Off");
             livCameraController.GetValue += delegate { return Plugin.IsDisableInLIVCamera; };
             livCameraController.SetValue += delegate (bool value)
             {
-                Plugin.IsDisableInLIVCamera = value;
+                ChangeLIVWallState(value);
                 Logger.Log($"'Disable in LIVCamera' (IsDisableLIVCameraWall) in the main settings is set to '{value}'", LogLevel.Debug);
             };
         }
@@ -45,14 +46,26 @@ namespace TransparentWall
         /// </summary>
         public static void CreateGameplaySetupMenu()
         {
-            hmdToggle = GameplaySettingsUI.CreateToggleOption(GameplaySettingsPanels.PlayerSettingsLeft, Plugin.PluginName, disclaimer, optionIcon, 0);
+            ToggleOption transparentWallMenu = GameplaySettingsUI.CreateSubmenuOption(GameplaySettingsPanels.PlayerSettingsLeft, Plugin.PluginName, "MainMenu",
+                Plugin.PluginName.ToLower(), $"{Plugin.PluginName} options", optionIcon);
 
+            hmdToggle = GameplaySettingsUI.CreateToggleOption(GameplaySettingsPanels.PlayerSettingsLeft, $"Enable in headset\\VR",
+                Plugin.PluginName.ToLower(), $"Default = Off.\nDisclaimer: {disclaimer}");
             hmdToggle.GetValue = Plugin.IsHMDOn;
-            hmdToggle.OnToggle += ((bool value) =>
+            hmdToggle.OnToggle += (bool value) =>
             {
                 Plugin.IsHMDOn = value;
                 Logger.Log($"Toggle is very '{(value ? "toggled" : "untoggled")}! Value is now '{value}'", LogLevel.Debug);
-            });
+            };
+
+            livCameraToggle = GameplaySettingsUI.CreateToggleOption(GameplaySettingsPanels.PlayerSettingsLeft, $"Disable in LIVCamera",
+                Plugin.PluginName.ToLower(), "Default = Off.");
+            livCameraToggle.GetValue = Plugin.IsDisableInLIVCamera;
+            livCameraToggle.OnToggle += (bool value) =>
+            {
+                Plugin.IsDisableInLIVCamera = value;
+                Logger.Log($"Toggle is very '{(value ? "toggled" : "untoggled")}! Value is now '{value}'", LogLevel.Debug);
+            };
         }
 
         /// <summary>
@@ -69,5 +82,6 @@ namespace TransparentWall
         }
 
         private static void ChangeTransparentWallState(bool state) => hmdToggle.SetToggleState(state);
+        private static void ChangeLIVWallState(bool state) => livCameraToggle.SetToggleState(state);
     }
 }
