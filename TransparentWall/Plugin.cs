@@ -18,7 +18,8 @@ namespace TransparentWall
         internal static Ref<PluginConfig> config;
         internal static IConfigProvider configProvider;
 
-        private static HarmonyInstance Harmony;
+        private static HarmonyInstance harmony;
+        private static bool isPatched = false;
 
         public static bool IsAnythingOn => (Plugin.IsHMDOn || Plugin.IsDisableInLIVCamera);
 
@@ -56,32 +57,14 @@ namespace TransparentWall
 
         public void OnApplicationStart()
         {
-            Harmony = HarmonyInstance.Create("com.pespiri.beatsaber.transparentwall");
-
-            try
-            {
-                Harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex, LogLevel.Error);
-            }
-
+            ApplyHarmonyPatches();
             Logger.Log($"{Plugin.PluginName} has started", LogLevel.Notice);
         }
 
         public void OnApplicationQuit()
         {
             configProvider.Store(config.Value);
-
-            try
-            {
-                Harmony.UnpatchAll("com.pespiri.beatsaber.transparentwall");
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex, LogLevel.Error);
-            }
+            RemoveHarmonyPatches();
         }
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
@@ -106,7 +89,11 @@ namespace TransparentWall
         public void OnUpdate() { }
         public void OnFixedUpdate() { }
 
-        public void OnEnable() { }
+        public void OnEnable()
+        {
+            ApplyHarmonyPatches();
+        }
+
         public void OnDisable()
         {
             if (Plugin.isScoreDisabled)
@@ -114,6 +101,47 @@ namespace TransparentWall
                 Logger.Log("Re-enabling ScoreSubmission on plugin disable", LogLevel.Debug);
                 Plugin.isScoreDisabled = false;
                 BS_Utils.Gameplay.ScoreSubmission.RemoveProlongedDisable(Plugin.PluginName);
+            }
+
+            RemoveHarmonyPatches();
+        }
+
+        private void ApplyHarmonyPatches()
+        {
+            if (Plugin.isPatched)
+            {
+                return;
+            }
+
+            if (Plugin.harmony == null)
+            {
+                Plugin.harmony = HarmonyInstance.Create("com.pespiri.beatsaber.transparentwall");
+            }
+
+            try
+            {
+                Plugin.harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
+                Plugin.isPatched = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex, LogLevel.Error);
+            }
+        }
+
+        private void RemoveHarmonyPatches()
+        {
+            if (Plugin.harmony != null && Plugin.isPatched)
+            {
+                try
+                {
+                    Plugin.harmony.UnpatchAll("com.pespiri.beatsaber.transparentwall");
+                    Plugin.isPatched = false;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log(ex, LogLevel.Error);
+                }
             }
         }
     }
