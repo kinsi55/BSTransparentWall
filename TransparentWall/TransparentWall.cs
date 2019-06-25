@@ -9,12 +9,9 @@ namespace TransparentWall
 {
     public class TransparentWall : MonoBehaviour
     {
-        public static int WallLayer = 25;
         public static int MoveBackLayer = 27;
-        public static List<int> LayersToMask = new List<int> { WallLayer, MoveBackLayer };
+        public static List<int> LayersToMask = new List<int> { TransparentWallsPatch.WallLayerMask, MoveBackLayer };
         public static List<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
-
-        private BeatmapObjectSpawnController _beatmapObjectSpawnController;
 
         private void Start()
         {
@@ -27,19 +24,9 @@ namespace TransparentWall
 
             try
             {
-                if (Resources.FindObjectsOfTypeAll<BeatmapObjectSpawnController>().Count() > 0)
-                {
-                    _beatmapObjectSpawnController = Resources.FindObjectsOfTypeAll<BeatmapObjectSpawnController>().First();
-                }
-
                 if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Count() > 0)
                 {
                     MoveBackLayer = Resources.FindObjectsOfTypeAll<MoveBackWall>().First().gameObject.layer;
-                }
-
-                if (_beatmapObjectSpawnController != null)
-                {
-                    _beatmapObjectSpawnController.obstacleDiStartMovementEvent += this.HandleObstacleDiStartMovementEvent;
                 }
 
                 StartCoroutine(setupCamerasCoroutine());
@@ -50,29 +37,21 @@ namespace TransparentWall
             }
         }
 
-        private void OnDestroy()
-        {
-            if (_beatmapObjectSpawnController != null)
-            {
-                _beatmapObjectSpawnController.obstacleDiStartMovementEvent -= this.HandleObstacleDiStartMovementEvent;
-            }
-        }
+        private void OnDestroy() { }
 
         private IEnumerator<WaitForEndOfFrame> setupCamerasCoroutine()
         {
             yield return new WaitForEndOfFrame();
 
-            Camera mainCamera = Camera.main;
-
             if (Plugin.IsHMDOn)
             {
                 DisableScore();
-                mainCamera.cullingMask &= ~(1 << WallLayer);
+                Camera.main.cullingMask &= ~(1 << TransparentWallsPatch.WallLayerMask);
             }
             else
             {
                 EnableScore();
-                mainCamera.cullingMask |= (1 << WallLayer);
+                Camera.main.cullingMask |= (1 << TransparentWallsPatch.WallLayerMask);
             }
 
             if (Plugin.IsDisableInLIVCamera)
@@ -88,21 +67,6 @@ namespace TransparentWall
                 {
                     Logger.Log(ex, LogLevel.Error);
                 }
-            }
-        }
-
-        public virtual void HandleObstacleDiStartMovementEvent(BeatmapObjectSpawnController obstacleSpawnController, ObstacleController obstacleController)
-        {
-            try
-            {
-                StretchableObstacle _stretchableObstacle = ReflectionUtil.GetPrivateField<StretchableObstacle>(obstacleController, "_stretchableObstacle");
-                StretchableCube _stretchableCore = ReflectionUtil.GetPrivateField<StretchableCube>(_stretchableObstacle, "_stretchableCore");
-                //MeshRenderer _meshRenderer = ReflectionUtil.GetPrivateField<MeshRenderer>(_stretchableCore, "_mesh");
-                _stretchableCore.gameObject.layer = WallLayer;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex, LogLevel.Error);
             }
         }
 
