@@ -10,7 +10,7 @@ namespace TransparentWall
     public class TransparentWall : MonoBehaviour
     {
         public static int MoveBackLayer = 27;
-        public static List<int> LayersToMask = new List<int> { TransparentWallsPatch.WallLayerMask, MoveBackLayer };
+        public static List<int> LayersToMask = new List<int> { HarmonyPatches.TransparentWallsPatch.WallLayerMask, MoveBackLayer };
         public static List<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
 
         private void Start()
@@ -46,12 +46,12 @@ namespace TransparentWall
             if (Plugin.IsHMDOn)
             {
                 DisableScore();
-                Camera.main.cullingMask &= ~(1 << TransparentWallsPatch.WallLayerMask);
+                Camera.main.cullingMask &= ~(1 << HarmonyPatches.TransparentWallsPatch.WallLayerMask);
             }
             else
             {
                 EnableScore();
-                Camera.main.cullingMask |= (1 << TransparentWallsPatch.WallLayerMask);
+                Camera.main.cullingMask |= (1 << HarmonyPatches.TransparentWallsPatch.WallLayerMask);
             }
 
             if (Plugin.IsDisableInLIVCamera)

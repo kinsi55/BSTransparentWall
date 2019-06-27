@@ -1,6 +1,6 @@
 ﻿using Harmony;
 
-namespace TransparentWall
+namespace TransparentWall.HarmonyPatches
 {
     [HarmonyPatch(typeof(StretchableCube))]
     [HarmonyPatch("Awake", MethodType.Normal)]

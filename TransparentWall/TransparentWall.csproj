@@ -61,20 +61,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionUtil.cs" />
     <Compile Include="TransparentWall.cs" />
-    <Compile Include="TransparentWallsPatch.cs" />
+    <Compile Include="HarmonyPatches\TransparentWallsPatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\description.md" />
+    <EmbeddedResource Include="Resources\description.md" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\icon.png" />
+    <EmbeddedResource Include="Resources\icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\icon_playersettings.png" />
+    <EmbeddedResource Include="Resources\icon_playersettings.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy ".\TransparentWall.dll" "E:\Program Files (x86)\Steam\steamapps\common\Beat Saber\Plugins"</PostBuildEvent>

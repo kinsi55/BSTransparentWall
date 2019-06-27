@@ -14,7 +14,7 @@ namespace TransparentWall
         private static BoolViewController hmdController;
         private static BoolViewController livCameraController;
 
-        private static readonly Sprite optionIcon = UIUtilities.LoadSpriteFromResources($"{Plugin.PluginName}.Properties.icon_playersettings.png");
+        private static readonly Sprite optionIcon = UIUtilities.LoadSpriteFromResources($"{Plugin.PluginName}.Resources.icon_playersettings.png");
         private static readonly string disclaimer = $"Enabling '{Plugin.PluginName}' in the headset\\VR will deactivate ScoreSubmission until this option is turned off!";
 
         /// <summary>
