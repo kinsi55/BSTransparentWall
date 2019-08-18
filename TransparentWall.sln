@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransparentWall", "TransparentWall\TransparentWall.csproj", "{63CE724B-0772-42F6-863D-F3AE19B6E67C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{6F761EF0-A68E-4B6F-B0FA-3BC731308E4F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		TransparentWall\TransparentWall.csproj.user = TransparentWall\TransparentWall.csproj.user
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

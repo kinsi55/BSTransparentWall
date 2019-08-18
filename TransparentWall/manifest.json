@@ -1,20 +1,19 @@
 {
   "$schema": "https://raw.githubusercontent.com/nike4613/ModSaber-MetadataFileSchema/master/Schema.json",
-  "author": "PureDark",
+  "author": "Pespiri",
   "description": [
     "#![TransparentWall.Resources.description.md]",
     "Makes the walls transparent"
   ],
-  "gameVersion": "1.1.0",
+  "gameVersion": "1.2.0",
   "icon": "TransparentWall.Resources.icon.png",
   "id": "TransparentWall",
   "name": "TransparentWall",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "dependsOn": {
     "BSIPA": "^3.12.14",
     "CustomUI": "^1.5.6",
-    "BS Utils": "^1.3.1",
-    "Harmony": "^1.2.0"
+    "BS Utils": "^1.3.1"
   },
   "features": [],
   "links": {

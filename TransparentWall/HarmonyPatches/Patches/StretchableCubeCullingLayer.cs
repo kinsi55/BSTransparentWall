@@ -1,12 +1,13 @@
 ﻿using Harmony;
 
-namespace TransparentWall.HarmonyPatches
+namespace TransparentWall.HarmonyPatches.Patches
 {
     [HarmonyPatch(typeof(StretchableCube))]
     [HarmonyPatch("Awake", MethodType.Normal)]
-    public class TransparentWallsPatch
+    public class StretchableCubeCullingLayer
     {
         public static int WallLayerMask = 25;
+
         public static void Postfix(StretchableCube __instance)
         {
             __instance.gameObject.layer = WallLayerMask;

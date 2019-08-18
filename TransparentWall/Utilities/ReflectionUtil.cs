@@ -2,7 +2,7 @@
 using System.Reflection;
 using UnityEngine;
 
-namespace TransparentWall
+namespace TransparentWall.Utilities
 {
     public static class ReflectionUtil
     {
@@ -13,7 +13,7 @@ namespace TransparentWall
 
         public static T GetPrivateField<T>(object obj, string fieldName)
         {
-            return (T)((object)obj.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(obj));
+            return (T)obj.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic).GetValue(obj);
         }
 
         public static void SetPrivateProperty(object obj, string propertyName, object value)

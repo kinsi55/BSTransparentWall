@@ -1,47 +1,29 @@
-﻿using System;
-using IPA;
+﻿using IPA;
 using IPA.Config;
+using IPA.Loader;
 using IPA.Utilities;
-using IPALogger = IPA.Logging.Logger;
-using LogLevel = IPA.Logging.Logger.Level;
-using Harmony;
+using TransparentWall.ConfigUtils;
+using TransparentWall.Gameplay;
+using TransparentWall.HarmonyPatches;
+using TransparentWall.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using IPALogger = IPA.Logging.Logger;
+using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall
 {
     class Plugin : IBeatSaberPlugin, IDisablablePlugin
     {
-        public static string PluginName = "TransparentWall";
-        public static bool isScoreDisabled = false;
+        public static string PluginName => "TransparentWall";
+        public static SemVer.Version PluginVersion { get; private set; } = new SemVer.Version("0.0.0"); // Default
 
         internal static Ref<PluginConfig> config;
         internal static IConfigProvider configProvider;
 
-        private static HarmonyInstance harmony;
-        private static bool isPatched = false;
-
-        public static bool IsAnythingOn => (Plugin.IsHMDOn || Plugin.IsDisableInLIVCamera);
-
-        public static bool IsHMDOn
+        public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider, PluginLoader.PluginMetadata metadata)
         {
-            get => config.Value.HMD;
-            set => config.Value.HMD = value;
-        }
-
-        public static bool IsDisableInLIVCamera
-        {
-            get => config.Value.DisableInLIVCamera;
-            set => config.Value.DisableInLIVCamera = value;
-        }
-
-        public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider)
-        {
-            if (logger != null)
-            {
-                Logger.log = logger;
-                Logger.Log("Logger prepared", LogLevel.Debug);
-            }
+            Logger.log = logger;
 
             configProvider = cfgProvider;
             config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
@@ -52,26 +34,24 @@ namespace TransparentWall
                 }
                 config = v;
             });
-            Logger.Log("Configuration loaded", LogLevel.Debug);
+
+            if (metadata != null)
+            {
+                PluginVersion = metadata.Version;
+                Logger.Log("Version number set", LogLevel.Debug);
+            }
         }
 
-        public void OnApplicationStart()
-        {
-            ApplyHarmonyPatches();
-            Logger.Log($"{Plugin.PluginName} has started", LogLevel.Notice);
-        }
-
-        public void OnApplicationQuit()
-        {
-            configProvider.Store(config.Value);
-            RemoveHarmonyPatches();
-        }
+        public void OnApplicationStart() => Load();
+        public void OnApplicationQuit() => Unload();
+        public void OnEnable() => Load("been enabled");
+        public void OnDisable() => Unload();
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
             if (nextScene.name == "GameCore")
             {
-                new GameObject(Plugin.PluginName).AddComponent<TransparentWall>();
+                new GameObject(PluginName).AddComponent<TransparentWalls>();
             }
         }
 
@@ -79,9 +59,8 @@ namespace TransparentWall
         {
             if (scene.name == "MenuCore")
             {
-                InGameSettingsUI.CreateGameplaySetupMenu();
-                InGameSettingsUI.CreateSettingsMenu();
-                //InGameSettingsUI.CreateModMenuButton()
+                SettingsUI.CreateGameplaySetupMenu();
+                SettingsUI.CreateSettingsMenu();
             }
         }
 
@@ -89,60 +68,19 @@ namespace TransparentWall
         public void OnUpdate() { }
         public void OnFixedUpdate() { }
 
-        public void OnEnable()
+        private void Load(string msg = "started")
         {
-            ApplyHarmonyPatches();
+            Configuration.Load();
+            TransparentWallPatches.ApplyHarmonyPatches();
+
+            Logger.Log($"{PluginName} v.{PluginVersion} has {msg}.", LogLevel.Notice);
         }
 
-        public void OnDisable()
+        private void Unload()
         {
-            if (Plugin.isScoreDisabled)
-            {
-                Logger.Log("Re-enabling ScoreSubmission on plugin disable", LogLevel.Debug);
-                Plugin.isScoreDisabled = false;
-                BS_Utils.Gameplay.ScoreSubmission.RemoveProlongedDisable(Plugin.PluginName);
-            }
-
-            RemoveHarmonyPatches();
-        }
-
-        private void ApplyHarmonyPatches()
-        {
-            if (Plugin.isPatched)
-            {
-                return;
-            }
-
-            if (Plugin.harmony == null)
-            {
-                Plugin.harmony = HarmonyInstance.Create("com.pespiri.beatsaber.transparentwall");
-            }
-
-            try
-            {
-                Plugin.harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
-                Plugin.isPatched = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex, LogLevel.Error);
-            }
-        }
-
-        private void RemoveHarmonyPatches()
-        {
-            if (Plugin.harmony != null && Plugin.isPatched)
-            {
-                try
-                {
-                    Plugin.harmony.UnpatchAll("com.pespiri.beatsaber.transparentwall");
-                    Plugin.isPatched = false;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Log(ex, LogLevel.Error);
-                }
-            }
+            TransparentWallPatches.RemoveHarmonyPatches();
+            ScoreUtility.Cleanup();
+            Configuration.Save();
         }
     }
 }
