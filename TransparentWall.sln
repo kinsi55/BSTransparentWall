@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{6F761EF0-A68E-4B6F-B0FA-3BC731308E4F}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		TransparentWall\TransparentWall.csproj.user = TransparentWall\TransparentWall.csproj.user
 	EndProjectSection
 EndProject
 Global
