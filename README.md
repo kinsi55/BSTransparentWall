@@ -22,7 +22,8 @@ By turning this option off again in the settings, high scores will be re-enabled
 ## For developers
 
 ### Contributing to CustomNotes
-In order to build this project, please add your Beat Saber directory path to the `TransparentWall.csproj.user` file located in the project directory like for example this:
+In order to build this project, please create the file `TransparentWall.csproj.user` and add your Beat Saber directory path to it in the project directory like this.
+This file should not be uploaded to GitHub and is in the .gitignore.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -34,7 +35,7 @@ In order to build this project, please add your Beat Saber directory path to the
 </Project>
 ```
 
-If you plan on adding any new dependencies which are located in the Beat Saber directory, it would be nice if you edited the paths to use `$(BeatSaberDir)` in `TransparentWall.csproj` like so to keep some consistency
+If you plan on adding any new dependencies which are located in the Beat Saber directory, it would be nice if you edited the paths to use `$(BeatSaberDir)` in `TransparentWall.csproj`
 
 ```xml
 ...
