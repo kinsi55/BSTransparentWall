@@ -35,10 +35,9 @@ namespace TransparentWall
                 config = v;
             });
 
-            if (metadata != null)
+            if (metadata?.Version != null)
             {
                 PluginVersion = metadata.Version;
-                Logger.Log("Version number set", LogLevel.Debug);
             }
         }
 

@@ -6,10 +6,10 @@ namespace TransparentWall.HarmonyPatches
     /// <summary>
     /// Apply and remove all of our Harmony patches through this class
     /// </summary>
-    internal class TransparentWallPatches
+    public static class TransparentWallPatches
     {
-        internal static bool IsPatched { get; private set; }
-        internal static string InstanceId => "com.pespiri.beatsaber.transparentwalls";
+        public static bool IsPatched { get; private set; }
+        public static string InstanceId => "com.pespiri.beatsaber.transparentwalls";
 
         private static HarmonyInstance Instance;
 
