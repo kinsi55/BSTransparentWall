@@ -21,7 +21,7 @@ By turning this option off again in the settings, high scores will be re-enabled
 
 ## For developers
 
-### Contributing to CustomNotes
+### Contributing to TransparentWall
 In order to build this project, please create the file `TransparentWall.csproj.user` and add your Beat Saber directory path to it in the project directory like this.
 This file should not be uploaded to GitHub and is in the .gitignore.
 
