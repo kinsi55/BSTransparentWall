@@ -74,7 +74,7 @@ namespace TransparentWall
             Configuration.Load();
             TransparentWallPatches.ApplyHarmonyPatches();
 
-            Logger.Log($"{PluginName} v.{PluginVersion} has started.", LogLevel.Notice);
+            Logger.Log($"{PluginName} v.{PluginVersion} has started.", LogLevel.Info);
         }
 
         private void Unload()
