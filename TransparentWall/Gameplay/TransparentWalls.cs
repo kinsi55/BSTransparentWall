@@ -2,6 +2,7 @@
 using System.Linq;
 using TransparentWall.Gameplay.Modifications;
 using TransparentWall.HarmonyPatches.Patches;
+using TransparentWall.Settings;
 using TransparentWall.Utilities;
 using UnityEngine;
 

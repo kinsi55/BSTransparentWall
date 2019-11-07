@@ -2,9 +2,11 @@
 using IPA.Config;
 using IPA.Loader;
 using IPA.Utilities;
-using TransparentWall.ConfigUtils;
 using TransparentWall.Gameplay;
 using TransparentWall.HarmonyPatches;
+using TransparentWall.Settings;
+using TransparentWall.Settings.UI;
+using TransparentWall.Settings.Utilities;
 using TransparentWall.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;

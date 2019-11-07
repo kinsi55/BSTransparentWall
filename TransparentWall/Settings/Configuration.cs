@@ -1,6 +1,6 @@
 ﻿using LogLevel = IPA.Logging.Logger.Level;
 
-namespace TransparentWall
+namespace TransparentWall.Settings
 {
     internal static class Configuration
     {
@@ -13,9 +13,9 @@ namespace TransparentWall
             InHeadset = Plugin.config.Value.HMD;
             DisabledInLivCamera = Plugin.config.Value.DisableInLIVCamera;
 
-            if (Plugin.config.Value.Logging["ShowCallSource"] is bool)
+            if (Plugin.config.Value.Logging["ShowCallSource"] is bool loggerShowCallSource)
             {
-                ShowCallSource = (bool)Plugin.config.Value.Logging["ShowCallSource"];
+                ShowCallSource = loggerShowCallSource;
             }
 
             Logger.Log("Configuration has been loaded.", LogLevel.Debug);

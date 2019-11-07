@@ -7,8 +7,9 @@ namespace TransparentWall.Utilities
     internal static class ScoreUtility
     {
         private static List<string> ScoreBlockList = new List<string>();
-        private static bool ScoreIsBlocked = false;
         private static object acquireLock = new object();
+
+        public static bool ScoreIsBlocked { get; private set; } = false;
 
         internal static void DisableScoreSubmission(string BlockedBy)
         {

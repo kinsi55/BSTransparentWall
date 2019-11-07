@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TransparentWall.ConfigUtils
+namespace TransparentWall.Settings.Utilities
 {
     internal class PluginConfig
     {

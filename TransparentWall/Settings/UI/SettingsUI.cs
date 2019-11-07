@@ -3,7 +3,7 @@ using CustomUI.Settings;
 using CustomUI.Utilities;
 using UnityEngine;
 
-namespace TransparentWall
+namespace TransparentWall.Settings.UI
 {
     public class SettingsUI : MonoBehaviour
     {

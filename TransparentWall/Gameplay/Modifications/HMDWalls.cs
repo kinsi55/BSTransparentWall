@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TransparentWall.HarmonyPatches.Patches;
+using TransparentWall.Settings;
 using UnityEngine;
 
 namespace TransparentWall.Gameplay.Modifications
