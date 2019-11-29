@@ -2,7 +2,7 @@
 
 namespace TransparentWall.Settings
 {
-    internal static class Configuration
+    internal class Configuration
     {
         internal static bool InHeadset;
         internal static bool DisabledInLivCamera;

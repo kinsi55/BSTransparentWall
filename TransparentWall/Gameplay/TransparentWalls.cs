@@ -8,14 +8,15 @@ using UnityEngine;
 
 namespace TransparentWall.Gameplay
 {
-    internal class TransparentWalls : MonoBehaviour
+    public class TransparentWalls : MonoBehaviour
     {
-        internal static int MoveBackLayer = 27;
-        internal static List<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
-        internal static List<int> LayersToMask = new List<int> { StretchableCubeCullingLayer.WallLayerMask, MoveBackLayer };
-
         private HMDWalls HMDWalls;
         private LIVWalls LIVWalls;
+
+        private static int MoveBackLayer = 27;
+
+        public static readonly List<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
+        public static readonly List<int> LayersToMask = new List<int> { StretchableCubeCullingLayer.WallLayerMask, MoveBackLayer };
 
 #pragma warning disable IDE0051 // Used by MonoBehaviour
         private void Start() => Load();

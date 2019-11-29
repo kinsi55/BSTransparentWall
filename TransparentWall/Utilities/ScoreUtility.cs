@@ -4,7 +4,7 @@ using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall.Utilities
 {
-    internal static class ScoreUtility
+    public class ScoreUtility
     {
         private static List<string> ScoreBlockList = new List<string>();
         private static object acquireLock = new object();
