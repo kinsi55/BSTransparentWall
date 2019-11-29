@@ -2,12 +2,10 @@
 using IPA;
 using IPA.Config;
 using IPA.Loader;
-using IPA.Utilities;
 using TransparentWall.Gameplay;
 using TransparentWall.HarmonyPatches;
 using TransparentWall.Settings;
 using TransparentWall.Settings.UI;
-using TransparentWall.Settings.Utilities;
 using TransparentWall.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,22 +19,11 @@ namespace TransparentWall
         public static string PluginName => "TransparentWall";
         public static SemVer.Version PluginVersion { get; private set; } = new SemVer.Version("0.0.0"); // Default
 
-        internal static Ref<PluginConfig> config;
-        internal static IConfigProvider configProvider;
-
         public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider, PluginLoader.PluginMetadata metadata)
         {
             Logger.log = logger;
 
-            configProvider = cfgProvider;
-            config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
-            {
-                if (v.Value == null || v.Value.RegenerateConfig || v.Value == null && v.Value.RegenerateConfig)
-                {
-                    p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
-                }
-                config = v;
-            });
+            Configuration.Init(cfgProvider);
 
             if (metadata?.Version != null)
             {

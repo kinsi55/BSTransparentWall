@@ -31,7 +31,7 @@ namespace TransparentWall.Gameplay
                 HMDWalls = new HMDWalls();
                 StartCoroutine(HMDWalls.ApplyGameCoreModifications());
             }
-            else
+            else if (ScoreUtility.ScoreIsBlocked)
             {
                 ScoreUtility.EnableScoreSubmission("InHeadset");
             }

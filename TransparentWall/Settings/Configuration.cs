@@ -1,19 +1,44 @@
-﻿using LogLevel = IPA.Logging.Logger.Level;
+﻿using IPA.Config;
+using IPA.Utilities;
+using TransparentWall.Settings.Utilities;
+using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall.Settings
 {
     internal class Configuration
     {
+        private static bool isInit = false;
+        private static Ref<PluginConfig> config;
+        private static IConfigProvider configProvider;
+
         internal static bool InHeadset;
         internal static bool DisabledInLivCamera;
         internal static bool ShowCallSource;
 
-        internal static void Load()
+        internal static void Init(IConfigProvider cfgProvider)
         {
-            InHeadset = Plugin.config.Value.HMD;
-            DisabledInLivCamera = Plugin.config.Value.DisableInLIVCamera;
+            if (!isInit && cfgProvider != null)
+            {
+                configProvider = cfgProvider;
+                config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
+                {
+                    if (v.Value == null || v.Value.RegenerateConfig || v.Value == null && v.Value.RegenerateConfig)
+                    {
+                        p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
+                    }
+                    config = v;
+                });
 
-            if (Plugin.config.Value.Logging["ShowCallSource"] is bool loggerShowCallSource)
+                isInit = true;
+            }
+        }
+
+        internal static void Load(bool reload = false)
+        {
+            InHeadset = config.Value.HMD;
+            DisabledInLivCamera = config.Value.DisableInLIVCamera;
+
+            if (config.Value.Logging["ShowCallSource"] is bool loggerShowCallSource)
             {
                 ShowCallSource = loggerShowCallSource;
             }
@@ -23,11 +48,11 @@ namespace TransparentWall.Settings
 
         internal static void Save()
         {
-            Plugin.config.Value.HMD = InHeadset;
-            Plugin.config.Value.DisableInLIVCamera = DisabledInLivCamera;
-            Plugin.config.Value.Logging["ShowCallSource"] = ShowCallSource;
+            config.Value.HMD = InHeadset;
+            config.Value.DisableInLIVCamera = DisabledInLivCamera;
+            config.Value.Logging["ShowCallSource"] = ShowCallSource;
 
-            Plugin.configProvider.Store(Plugin.config.Value);
+            configProvider.Store(config.Value);
         }
     }
 }
