@@ -1,4 +1,5 @@
-﻿using IPA;
+﻿using BeatSaberMarkupLanguage.Settings;
+using IPA;
 using IPA.Config;
 using IPA.Loader;
 using IPA.Utilities;
@@ -53,18 +54,14 @@ namespace TransparentWall
             {
                 new GameObject(PluginName).AddComponent<TransparentWalls>();
             }
-        }
-
-        public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
-        {
-            if (scene.name == "MenuCore")
+            else if (nextScene.name == "MenuCore")
             {
-                SettingsUI.CreateGameplaySetupMenu();
-                SettingsUI.CreateSettingsMenu();
+                BSMLSettings.instance.AddSettingsMenu("Transparent Walls", "TransparentWall.Settings.UI.Views.mainsettings.bsml", MainSettings.instance);
             }
         }
 
         public void OnApplicationStart() { }
+        public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode) { }
         public void OnSceneUnloaded(Scene scene) { }
         public void OnUpdate() { }
         public void OnFixedUpdate() { }
