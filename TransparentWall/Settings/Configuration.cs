@@ -33,26 +33,32 @@ namespace TransparentWall.Settings
             }
         }
 
-        internal static void Load(bool reload = false)
+        internal static void Load()
         {
-            InHeadset = config.Value.HMD;
-            DisabledInLivCamera = config.Value.DisableInLIVCamera;
-
-            if (config.Value.Logging["ShowCallSource"] is bool loggerShowCallSource)
+            if (isInit)
             {
-                ShowCallSource = loggerShowCallSource;
-            }
+                InHeadset = config.Value.HMD;
+                DisabledInLivCamera = config.Value.DisableInLIVCamera;
 
-            Logger.Log("Configuration has been loaded.", LogLevel.Debug);
+                if (config.Value.Logging["ShowCallSource"] is bool loggerShowCallSource)
+                {
+                    ShowCallSource = loggerShowCallSource;
+                }
+
+                Logger.Log("Configuration has been loaded.", LogLevel.Debug);
+            }
         }
 
         internal static void Save()
         {
-            config.Value.HMD = InHeadset;
-            config.Value.DisableInLIVCamera = DisabledInLivCamera;
-            config.Value.Logging["ShowCallSource"] = ShowCallSource;
+            if (isInit)
+            {
+                config.Value.HMD = InHeadset;
+                config.Value.DisableInLIVCamera = DisabledInLivCamera;
+                config.Value.Logging["ShowCallSource"] = ShowCallSource;
 
-            configProvider.Store(config.Value);
+                configProvider.Store(config.Value);
+            }
         }
     }
 }
