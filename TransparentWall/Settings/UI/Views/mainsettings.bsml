@@ -1,7 +1,9 @@
 ﻿<settings-container>
   <horizontal>
-    <text text='Transparent Walls Settings' font-size='5'></text>
+    <text text='Transparent Walls Settings' font-size='5' />
   </horizontal>
-  <bool-setting text='Enable in HMD/Headset' value='enable-in-hmd' hover-hint='Enabling this option will deactivate score submission until it&apos;s turned off again!'></bool-setting>
-  <bool-setting text='Disable in LIV Camera' value='disable-in-liv'></bool-setting>
+
+  <bool-setting text='Enable in HMD/Headset' value='enable-in-hmd'
+            hover-hint='Enabling this option will deactivate score submission until it&apos;s turned off again!' />
+  <bool-setting text='Disable in LIV Camera' value='disable-in-liv' />
 </settings-container>

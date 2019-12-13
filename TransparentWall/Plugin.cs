@@ -14,7 +14,7 @@ using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall
 {
-    class Plugin : IBeatSaberPlugin, IDisablablePlugin
+    public class Plugin : IBeatSaberPlugin, IDisablablePlugin
     {
         public static string PluginName => "TransparentWall";
         public static SemVer.Version PluginVersion { get; private set; } = new SemVer.Version("0.0.0"); // Default
@@ -41,7 +41,7 @@ namespace TransparentWall
             {
                 new GameObject(PluginName).AddComponent<TransparentWalls>();
             }
-            else if (nextScene.name == "MenuCore")
+            else if (nextScene.name == "MenuViewControllers" && prevScene.name == "EmptyTransition")
             {
                 BSMLSettings.instance.AddSettingsMenu("Transparent Walls", "TransparentWall.Settings.UI.Views.mainsettings.bsml", MainSettings.instance);
             }
