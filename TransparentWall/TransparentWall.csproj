@@ -83,7 +83,7 @@
     <Compile Include="Settings\Utilities\PluginConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ReflectionUtil.cs" />
-    <Compile Include="HarmonyPatches\Patches\StretchableCubeCullingLayer.cs" />
+    <Compile Include="HarmonyPatches\Patches\ObstacleControllerCullingLayer.cs" />
     <Compile Include="Utilities\ScoreUtility.cs" />
   </ItemGroup>
   <ItemGroup>

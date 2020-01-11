@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall.Gameplay.Modifications
 {
@@ -21,7 +20,7 @@ namespace TransparentWall.Gameplay.Modifications
             }
             catch (Exception ex)
             {
-                Logger.Log(ex, LogLevel.Error);
+                Logger.log.Error(ex);
             }
         }
     }

@@ -10,7 +10,6 @@ using TransparentWall.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
-using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall
 {
@@ -22,7 +21,6 @@ namespace TransparentWall
         public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider, PluginLoader.PluginMetadata metadata)
         {
             Logger.log = logger;
-
             Configuration.Init(cfgProvider);
 
             if (metadata?.Version != null)
@@ -31,9 +29,9 @@ namespace TransparentWall
             }
         }
 
-        public void OnApplicationQuit() => Unload();
         public void OnEnable() => Load();
         public void OnDisable() => Unload();
+        public void OnApplicationQuit() => Unload();
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
@@ -58,7 +56,7 @@ namespace TransparentWall
             Configuration.Load();
             TransparentWallPatches.ApplyHarmonyPatches();
 
-            Logger.Log($"{PluginName} v.{PluginVersion} has started.", LogLevel.Info);
+            Logger.log.Info($"{PluginName} v.{PluginVersion} has started.");
         }
 
         private void Unload()

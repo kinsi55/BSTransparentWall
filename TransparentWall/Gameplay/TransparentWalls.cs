@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TransparentWall.Gameplay.Modifications;
-using TransparentWall.HarmonyPatches.Patches;
 using TransparentWall.Settings;
 using TransparentWall.Utilities;
 using UnityEngine;
@@ -10,13 +9,11 @@ namespace TransparentWall.Gameplay
 {
     public class TransparentWalls : MonoBehaviour
     {
-        private HMDWalls HMDWalls;
-        private LIVWalls LIVWalls;
-
-        private static int MoveBackLayer = 27;
+        private HMDWalls HMDWalls = null;
+        private LIVWalls LIVWalls = null;
 
         public static readonly List<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
-        public static readonly List<int> LayersToMask = new List<int> { StretchableCubeCullingLayer.WallLayerMask, MoveBackLayer };
+        public static readonly List<int> LayersToMask = new List<int> { Configuration.WallLayerMask, Configuration.MoveBackLayer };
 
 #pragma warning disable IDE0051 // Used by MonoBehaviour
         private void Start() => Load();
@@ -40,7 +37,7 @@ namespace TransparentWall.Gameplay
             {
                 if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Count() > 0)
                 {
-                    MoveBackLayer = Resources.FindObjectsOfTypeAll<MoveBackWall>().First().gameObject.layer;
+                    Configuration.MoveBackLayer = Resources.FindObjectsOfTypeAll<MoveBackWall>().First().gameObject.layer;
                 }
 
                 LIVWalls = new LIVWalls();

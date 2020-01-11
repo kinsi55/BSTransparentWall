@@ -1,19 +1,21 @@
 ﻿using IPA.Config;
 using IPA.Utilities;
 using TransparentWall.Settings.Utilities;
-using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall.Settings
 {
-    internal class Configuration
+    public class Configuration
     {
         private static bool isInit = false;
         private static Ref<PluginConfig> config;
         private static IConfigProvider configProvider;
 
-        internal static bool InHeadset;
-        internal static bool DisabledInLivCamera;
-        internal static bool ShowCallSource;
+        public static bool InHeadset { get; internal set; }
+        public static bool DisabledInLivCamera { get; internal set; }
+
+        // Culling layers
+        public static int WallLayerMask => 25;
+        public static int MoveBackLayer { get; internal set; } = 27;
 
         internal static void Init(IConfigProvider cfgProvider)
         {
@@ -22,7 +24,7 @@ namespace TransparentWall.Settings
                 configProvider = cfgProvider;
                 config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
                 {
-                    if (v.Value == null || v.Value.RegenerateConfig || v.Value == null && v.Value.RegenerateConfig)
+                    if (v.Value == null || v.Value.RegenerateConfig)
                     {
                         p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
                     }
@@ -39,13 +41,6 @@ namespace TransparentWall.Settings
             {
                 InHeadset = config.Value.HMD;
                 DisabledInLivCamera = config.Value.DisableInLIVCamera;
-
-                if (config.Value.Logging["ShowCallSource"] is bool loggerShowCallSource)
-                {
-                    ShowCallSource = loggerShowCallSource;
-                }
-
-                Logger.Log("Configuration has been loaded.", LogLevel.Debug);
             }
         }
 
@@ -55,7 +50,6 @@ namespace TransparentWall.Settings
             {
                 config.Value.HMD = InHeadset;
                 config.Value.DisableInLIVCamera = DisabledInLivCamera;
-                config.Value.Logging["ShowCallSource"] = ShowCallSource;
 
                 configProvider.Store(config.Value);
             }

@@ -1,48 +1,47 @@
 ﻿using BS_Utils.Gameplay;
 using System.Collections.Generic;
-using LogLevel = IPA.Logging.Logger.Level;
 
 namespace TransparentWall.Utilities
 {
     public class ScoreUtility
     {
-        private static List<string> ScoreBlockList = new List<string>();
-        private static object acquireLock = new object();
+        private static readonly List<string> scoreBlockList = new List<string>();
+        private static readonly object acquireLock = new object();
 
         public static bool ScoreIsBlocked { get; private set; } = false;
 
-        internal static void DisableScoreSubmission(string BlockedBy)
+        internal static void DisableScoreSubmission(string blockedBy)
         {
             lock (acquireLock)
             {
-                if (!ScoreBlockList.Contains(BlockedBy))
+                if (!scoreBlockList.Contains(blockedBy))
                 {
-                    ScoreBlockList.Add(BlockedBy);
+                    scoreBlockList.Add(blockedBy);
                 }
 
                 if (!ScoreIsBlocked)
                 {
-                    Logger.Log("ScoreSubmission has been disabled.", LogLevel.Info);
                     ScoreSubmission.ProlongedDisableSubmission(Plugin.PluginName);
                     ScoreIsBlocked = true;
+                    Logger.log.Info("ScoreSubmission has been disabled.");
                 }
             }
         }
 
-        internal static void EnableScoreSubmission(string BlockedBy)
+        internal static void EnableScoreSubmission(string blockedBy)
         {
             lock (acquireLock)
             {
-                if (ScoreBlockList.Contains(BlockedBy))
+                if (scoreBlockList.Contains(blockedBy))
                 {
-                    ScoreBlockList.Remove(BlockedBy);
+                    scoreBlockList.Remove(blockedBy);
                 }
 
-                if (ScoreIsBlocked && ScoreBlockList.Count == 0)
+                if (ScoreIsBlocked && scoreBlockList.Count == 0)
                 {
-                    Logger.Log("ScoreSubmission has been re-enabled.", LogLevel.Info);
                     ScoreSubmission.RemoveProlongedDisable(Plugin.PluginName);
                     ScoreIsBlocked = false;
+                    Logger.log.Info("ScoreSubmission has been re-enabled.");
                 }
             }
         }
@@ -56,14 +55,14 @@ namespace TransparentWall.Utilities
             {
                 if (ScoreIsBlocked)
                 {
-                    Logger.Log("Plugin is exiting, ScoreSubmission has been re-enabled.", LogLevel.Info);
+                    Logger.log.Info("Plugin is exiting, ScoreSubmission has been re-enabled.");
                     ScoreSubmission.RemoveProlongedDisable(Plugin.PluginName);
                     ScoreIsBlocked = false;
                 }
 
-                if (ScoreBlockList.Count != 0)
+                if (scoreBlockList.Count != 0)
                 {
-                    ScoreBlockList.Clear();
+                    scoreBlockList.Clear();
                 }
             }
         }

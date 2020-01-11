@@ -4,6 +4,6 @@
   </horizontal>
 
   <bool-setting text='Enable in HMD/Headset' value='enable-in-hmd'
-            hover-hint='Enabling this option will deactivate score submission until it&apos;s turned off again!' />
+                hover-hint='Enabling this option will deactivate score submission until it&apos;s turned off again!' />
   <bool-setting text='Disable in LIV Camera' value='disable-in-liv' />
 </settings-container>
