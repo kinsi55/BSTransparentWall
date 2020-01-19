@@ -12,17 +12,12 @@ namespace TransparentWall.Gameplay
         private HMDWalls HMDWalls = null;
         private LIVWalls LIVWalls = null;
 
-        public static readonly List<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
-        public static readonly List<int> LayersToMask = new List<int> { Configuration.WallLayerMask, Configuration.MoveBackLayer };
+        public static readonly IList<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
+        public static readonly List<int> layersToMask = new List<int> { Configuration.WallLayerMask, Configuration.MoveBackLayer };
 
-#pragma warning disable IDE0051 // Used by MonoBehaviour
-        private void Start() => Load();
-        private void OnDestroy() => Unload();
-#pragma warning restore IDE0051 // Used by MonoBehaviour
-
-        private void Load()
+        private void Start()
         {
-            if (Configuration.InHeadset)
+            if (Configuration.EnableForHeadset)
             {
                 ScoreUtility.DisableScoreSubmission("InHeadset");
                 HMDWalls = new HMDWalls();
@@ -33,7 +28,7 @@ namespace TransparentWall.Gameplay
                 ScoreUtility.EnableScoreSubmission("InHeadset");
             }
 
-            if (Configuration.DisabledInLivCamera)
+            if (Configuration.DisableForLIVCamera)
             {
                 if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Count() > 0)
                 {
@@ -45,7 +40,7 @@ namespace TransparentWall.Gameplay
             }
         }
 
-        private void Unload()
+        private void OnDestroy()
         {
             HMDWalls = null;
             LIVWalls = null;

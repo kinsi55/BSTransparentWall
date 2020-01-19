@@ -9,7 +9,7 @@
   "icon": "TransparentWall.Resources.icon.png",
   "id": "TransparentWall",
   "name": "TransparentWall",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "dependsOn": {
     "BSIPA": "^3.13.4",
     "BeatSaberMarkupLanguage": "^1.1.0",

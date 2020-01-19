@@ -2,20 +2,20 @@
 
 namespace TransparentWall.Settings.UI
 {
-    public class MainSettings : PersistentSingleton<MainSettings>
+    internal class MainSettings : PersistentSingleton<MainSettings>
     {
         [UIValue("enable-in-hmd")]
-        public bool EnableInHMD
+        public bool EnableForHeadset
         {
-            get => Configuration.InHeadset;
-            set => Configuration.InHeadset = value;
+            get => Configuration.EnableForHeadset;
+            set => Configuration.EnableForHeadset = value;
         }
 
         [UIValue("disable-in-liv")]
-        public bool DisabledInLiv
+        public bool DisableForLIVCamera
         {
-            get => Configuration.DisabledInLivCamera;
-            set => Configuration.DisabledInLivCamera = value;
+            get => Configuration.DisableForLIVCamera;
+            set => Configuration.DisableForLIVCamera = value;
         }
     }
 }

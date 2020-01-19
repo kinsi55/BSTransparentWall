@@ -5,18 +5,17 @@ namespace TransparentWall.Utilities
 {
     public class ScoreUtility
     {
-        private static readonly List<string> scoreBlockList = new List<string>();
-        private static readonly object acquireLock = new object();
+        private static readonly IList<string> scoreBlockList = new List<string>();
 
         public static bool ScoreIsBlocked { get; private set; } = false;
 
-        internal static void DisableScoreSubmission(string blockedBy)
+        internal static void DisableScoreSubmission(string reason)
         {
-            lock (acquireLock)
+            lock (scoreBlockList)
             {
-                if (!scoreBlockList.Contains(blockedBy))
+                if (!scoreBlockList.Contains(reason))
                 {
-                    scoreBlockList.Add(blockedBy);
+                    scoreBlockList.Add(reason);
                 }
 
                 if (!ScoreIsBlocked)
@@ -28,13 +27,13 @@ namespace TransparentWall.Utilities
             }
         }
 
-        internal static void EnableScoreSubmission(string blockedBy)
+        internal static void EnableScoreSubmission(string reason)
         {
-            lock (acquireLock)
+            lock (scoreBlockList)
             {
-                if (scoreBlockList.Contains(blockedBy))
+                if (scoreBlockList.Contains(reason))
                 {
-                    scoreBlockList.Remove(blockedBy);
+                    scoreBlockList.Remove(reason);
                 }
 
                 if (ScoreIsBlocked && scoreBlockList.Count == 0)
@@ -51,7 +50,7 @@ namespace TransparentWall.Utilities
         /// </summary>
         internal static void Cleanup()
         {
-            lock (acquireLock)
+            lock (scoreBlockList)
             {
                 if (ScoreIsBlocked)
                 {

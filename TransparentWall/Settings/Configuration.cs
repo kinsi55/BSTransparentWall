@@ -6,12 +6,11 @@ namespace TransparentWall.Settings
 {
     public class Configuration
     {
-        private static bool isInit = false;
         private static Ref<PluginConfig> config;
         private static IConfigProvider configProvider;
 
-        public static bool InHeadset { get; internal set; }
-        public static bool DisabledInLivCamera { get; internal set; }
+        public static bool EnableForHeadset { get; internal set; }
+        public static bool DisableForLIVCamera { get; internal set; }
 
         // Culling layers
         public static int WallLayerMask => 25;
@@ -19,40 +18,29 @@ namespace TransparentWall.Settings
 
         internal static void Init(IConfigProvider cfgProvider)
         {
-            if (!isInit && cfgProvider != null)
+            configProvider = cfgProvider;
+            config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
             {
-                configProvider = cfgProvider;
-                config = cfgProvider.MakeLink<PluginConfig>((p, v) =>
+                if (v.Value == null || v.Value.RegenerateConfig)
                 {
-                    if (v.Value == null || v.Value.RegenerateConfig)
-                    {
-                        p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
-                    }
-                    config = v;
-                });
-
-                isInit = true;
-            }
+                    p.Store(v.Value = new PluginConfig() { RegenerateConfig = false });
+                }
+                config = v;
+            });
         }
 
         internal static void Load()
         {
-            if (isInit)
-            {
-                InHeadset = config.Value.HMD;
-                DisabledInLivCamera = config.Value.DisableInLIVCamera;
-            }
+            EnableForHeadset = config.Value.EnableForHeadset;
+            DisableForLIVCamera = config.Value.DisableForLIVCamera;
         }
 
         internal static void Save()
         {
-            if (isInit)
-            {
-                config.Value.HMD = InHeadset;
-                config.Value.DisableInLIVCamera = DisabledInLivCamera;
+            config.Value.EnableForHeadset = EnableForHeadset;
+            config.Value.DisableForLIVCamera = DisableForLIVCamera;
 
-                configProvider.Store(config.Value);
-            }
+            configProvider.Store(config.Value);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace TransparentWall.HarmonyPatches.Patches
     {
         private static void Postfix(ref ObstacleController __instance)
         {
-            if (Configuration.InHeadset || Configuration.DisabledInLivCamera)
+            if (Configuration.EnableForHeadset || Configuration.DisableForLIVCamera)
             {
                 Renderer mesh = __instance.gameObject?.GetComponentInChildren<Renderer>(false);
                 if (mesh?.gameObject)
