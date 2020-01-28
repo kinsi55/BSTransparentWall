@@ -11,7 +11,6 @@
   "name": "TransparentWall",
   "version": "1.2.1",
   "dependsOn": {
-    "BSIPA": "^3.13.4",
     "BeatSaberMarkupLanguage": "^1.1.0",
     "BS Utils": "^1.4.0"
   },

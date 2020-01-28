@@ -2,7 +2,7 @@
 {
     public class PluginConfig
     {
-        public bool RegenerateConfig = true;
+        public static PluginConfig Instance;
 
         public bool EnableForHeadset = false;
         public bool DisableForLIVCamera = false;
