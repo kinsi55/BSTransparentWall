@@ -1,4 +1,4 @@
-﻿<settings-container>
+﻿<settings-container xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
   <horizontal>
     <text text='Transparent Walls Settings' font-size='5' />
   </horizontal>

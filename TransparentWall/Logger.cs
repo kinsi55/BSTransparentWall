@@ -2,8 +2,8 @@
 
 namespace TransparentWall
 {
-    public class Logger
+    internal class Logger
     {
-        internal static IPALogger log { get; set; }
+        public static IPALogger log { get; set; }
     }
 }
