@@ -13,15 +13,17 @@ using IPALogger = IPA.Logging.Logger;
 
 namespace TransparentWall
 {
-    public class Plugin : IBeatSaberPlugin, IDisablablePlugin
+    [Plugin(RuntimeOptions.DynamicInit)]
+    public class Plugin
     {
         public static string PluginName => "TransparentWall";
         public static SemVer.Version PluginVersion { get; private set; } = new SemVer.Version("0.0.0"); // Default
 
-        public void Init(IPALogger logger, [Config.Prefer("json")] IConfigProvider cfgProvider, PluginLoader.PluginMetadata metadata)
+        [Init]
+        public void Init(IPALogger logger, Config config, PluginMetadata metadata)
         {
             Logger.log = logger;
-            Configuration.Init(cfgProvider);
+            Configuration.Init(config);
 
             if (metadata?.Version != null)
             {
@@ -29,9 +31,10 @@ namespace TransparentWall
             }
         }
 
+        [OnEnable]
         public void OnEnable() => Load();
+        [OnDisable]
         public void OnDisable() => Unload();
-        public void OnApplicationQuit() => Unload();
 
         public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
         {
@@ -45,16 +48,11 @@ namespace TransparentWall
             }
         }
 
-        public void OnApplicationStart() { }
-        public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode) { }
-        public void OnSceneUnloaded(Scene scene) { }
-        public void OnUpdate() { }
-        public void OnFixedUpdate() { }
-
         private void Load()
         {
             Configuration.Load();
             TransparentWallPatches.ApplyHarmonyPatches();
+            AddEvents();
 
             Logger.log.Info($"{PluginName} v.{PluginVersion} has started.");
         }
@@ -64,6 +62,18 @@ namespace TransparentWall
             TransparentWallPatches.RemoveHarmonyPatches();
             ScoreUtility.Cleanup();
             Configuration.Save();
+            RemoveEvents();
+        }
+
+        private void AddEvents()
+        {
+            RemoveEvents();
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        }
+
+        private void RemoveEvents()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
     }
 }
