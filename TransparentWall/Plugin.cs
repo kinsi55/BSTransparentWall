@@ -1,5 +1,4 @@
-﻿using BeatSaberMarkupLanguage.Settings;
-using IPA;
+﻿using IPA;
 using IPA.Config;
 using IPA.Loader;
 using TransparentWall.Gameplay;
@@ -8,7 +7,6 @@ using TransparentWall.Settings;
 using TransparentWall.Settings.UI;
 using TransparentWall.Utilities;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 
 namespace TransparentWall
@@ -36,22 +34,16 @@ namespace TransparentWall
         [OnDisable]
         public void OnDisable() => Unload();
 
-        public void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
+        public void OnGameSceneLoaded()
         {
-            if (nextScene.name == "GameCore")
-            {
-                new GameObject(PluginName).AddComponent<TransparentWalls>();
-            }
-            else if (nextScene.name == "MenuViewControllers" && prevScene.name == "EmptyTransition")
-            {
-                BSMLSettings.instance.AddSettingsMenu("Transparent Walls", "TransparentWall.Settings.UI.Views.mainsettings.bsml", MainSettings.instance);
-            }
+            new GameObject(PluginName).AddComponent<TransparentWalls>();
         }
 
         private void Load()
         {
             Configuration.Load();
             TransparentWallPatches.ApplyHarmonyPatches();
+            SettingsUI.CreateMenu();
             AddEvents();
 
             Logger.log.Info($"{PluginName} v.{PluginVersion} has started.");
@@ -62,18 +54,19 @@ namespace TransparentWall
             TransparentWallPatches.RemoveHarmonyPatches();
             ScoreUtility.Cleanup();
             Configuration.Save();
+            SettingsUI.RemoveMenu();
             RemoveEvents();
         }
 
         private void AddEvents()
         {
             RemoveEvents();
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            BS_Utils.Utilities.BSEvents.gameSceneLoaded += OnGameSceneLoaded;
         }
 
         private void RemoveEvents()
         {
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            BS_Utils.Utilities.BSEvents.gameSceneLoaded -= OnGameSceneLoaded;
         }
     }
 }
