@@ -51,11 +51,11 @@ namespace TransparentWall
 
         private void Unload()
         {
+            RemoveEvents();
             TransparentWallPatches.RemoveHarmonyPatches();
             ScoreUtility.Cleanup();
             Configuration.Save();
             SettingsUI.RemoveMenu();
-            RemoveEvents();
         }
 
         private void AddEvents()
