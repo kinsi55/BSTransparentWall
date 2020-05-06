@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TransparentWall.Gameplay.Modifications;
 using TransparentWall.Settings;
@@ -9,19 +10,17 @@ namespace TransparentWall.Gameplay
 {
     public class TransparentWalls : MonoBehaviour
     {
-        private HMDWalls HMDWalls = null;
         private LIVWalls LIVWalls = null;
 
         public static readonly IList<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
         public static readonly List<int> layersToMask = new List<int> { Configuration.WallLayerMask, Configuration.MoveBackLayer };
 
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Unity calls this")]
         private void Start()
         {
             if (Configuration.EnableForHeadset)
             {
                 ScoreUtility.DisableScoreSubmission("InHeadset");
-                HMDWalls = new HMDWalls();
-                StartCoroutine(HMDWalls.ApplyGameCoreModifications());
             }
             else if (ScoreUtility.ScoreIsBlocked)
             {
@@ -40,9 +39,9 @@ namespace TransparentWall.Gameplay
             }
         }
 
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Unity calls this")]
         private void OnDestroy()
         {
-            HMDWalls = null;
             LIVWalls = null;
         }
     }
