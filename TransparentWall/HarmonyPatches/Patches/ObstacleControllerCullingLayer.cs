@@ -10,6 +10,7 @@ namespace TransparentWall.HarmonyPatches.Patches
     internal class ObstacleControllerCullingLayer
     {
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Harmony calls this")]
+        [HarmonyAfter("com.brian91292.beatsaber.cameraplus")]
         private static void Postfix(ref ObstacleController __instance)
         {
             if (Configuration.EnableForHeadset || Configuration.DisableForLIVCamera)
