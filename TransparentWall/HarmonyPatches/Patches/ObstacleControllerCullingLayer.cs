@@ -10,9 +10,23 @@ namespace TransparentWall.HarmonyPatches.Patches
     internal class ObstacleControllerCullingLayer
     {
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Harmony calls this")]
-        [HarmonyAfter("com.brian91292.beatsaber.cameraplus")]
+        private static void Prefix()
+        {
+            if (!Configuration.EnableForHeadset)
+            {
+                Camera.main.cullingMask |= 1 << Configuration.WallLayerMask;
+            }
+        }
+
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Harmony calls this")]
+        [HarmonyAfter("com.brian91292.beatsaber.cameraplus")]  // Executes after CameraPlus to avoid race condition
         private static void Postfix(ref ObstacleController __instance)
         {
+            if (Configuration.EnableForHeadset)
+            {
+                Camera.main.cullingMask &= ~(1 << Configuration.WallLayerMask);
+            }
+
             if (Configuration.EnableForHeadset || Configuration.DisableForLIVCamera)
             {
                 Renderer mesh = __instance.gameObject?.GetComponentInChildren<Renderer>(false);
@@ -20,11 +34,6 @@ namespace TransparentWall.HarmonyPatches.Patches
                 {
                     mesh.gameObject.layer = Configuration.WallLayerMask;
                 }
-            }
-
-            if (Configuration.EnableForHeadset)
-            {
-                Camera.main.cullingMask &= ~(1 << Configuration.WallLayerMask);
             }
         }
     }
