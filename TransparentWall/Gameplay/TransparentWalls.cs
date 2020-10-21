@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using BS_Utils.Gameplay;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TransparentWall.Gameplay.Modifications;
 using TransparentWall.Settings;
-using TransparentWall.Utilities;
 using UnityEngine;
 
 namespace TransparentWall.Gameplay
@@ -20,11 +20,7 @@ namespace TransparentWall.Gameplay
         {
             if (Configuration.EnableForHeadset)
             {
-                ScoreUtility.DisableScoreSubmission("InHeadset");
-            }
-            else if (ScoreUtility.ScoreIsBlocked)
-            {
-                ScoreUtility.EnableScoreSubmission("InHeadset");
+                ScoreSubmission.DisableSubmission(Plugin.PluginName);
             }
 
             if (Configuration.DisableForLIVCamera)

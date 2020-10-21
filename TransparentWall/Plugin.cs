@@ -5,7 +5,6 @@ using TransparentWall.Gameplay;
 using TransparentWall.HarmonyPatches;
 using TransparentWall.Settings;
 using TransparentWall.Settings.UI;
-using TransparentWall.Utilities;
 using UnityEngine;
 using IPALogger = IPA.Logging.Logger;
 
@@ -53,7 +52,6 @@ namespace TransparentWall
         {
             RemoveEvents();
             TransparentWallPatches.RemoveHarmonyPatches();
-            ScoreUtility.Cleanup();
             Configuration.Save();
             SettingsUI.RemoveMenu();
         }

@@ -83,7 +83,6 @@
     <Compile Include="Settings\UI\SettingsUI.cs" />
     <Compile Include="Settings\Utilities\PluginConfig.cs" />
     <Compile Include="Utilities\ReflectionUtil.cs" />
-    <Compile Include="Utilities\ScoreUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="manifest.json" />
