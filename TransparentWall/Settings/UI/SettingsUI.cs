@@ -1,4 +1,5 @@
-﻿using BeatSaberMarkupLanguage.Settings;
+﻿using BeatSaberMarkupLanguage.GameplaySetup;
+using BeatSaberMarkupLanguage.Settings;
 
 namespace TransparentWall.Settings.UI
 {
@@ -11,6 +12,7 @@ namespace TransparentWall.Settings.UI
             if (!created)
             {
                 BSMLSettings.instance.AddSettingsMenu("Transparent Walls", "TransparentWall.Settings.UI.Views.mainsettings.bsml", MainSettings.instance);
+                GameplaySetup.instance.AddTab("Transparent Walls", "TransparentWall.Settings.UI.Views.mainmodifiers.bsml", MainModifiers.instance);
                 created = true;
             }
         }
@@ -20,6 +22,7 @@ namespace TransparentWall.Settings.UI
             if (created)
             {
                 BSMLSettings.instance.RemoveSettingsMenu(MainSettings.instance);
+                GameplaySetup.instance.RemoveTab("Transparent Walls");
                 created = false;
             }
         }
