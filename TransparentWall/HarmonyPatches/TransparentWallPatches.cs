@@ -8,32 +8,28 @@ namespace TransparentWall.HarmonyPatches
     /// </summary>
     public static class TransparentWallPatches
     {
-        private static Harmony instance;
-
-        public static bool IsPatched { get; private set; }
-        public const string InstanceId = "com.pespiri.beatsaber.transparentwalls";
+        private static Harmony _instance;
+        private static bool IsPatched { get; set; }
+        private const string InstanceId = "com.pespiri.beatsaber.transparentwalls";
 
         internal static void ApplyHarmonyPatches()
         {
-            if (!IsPatched)
+            if (IsPatched) return;
+            if (_instance == null)
             {
-                if (instance == null)
-                {
-                    instance = new Harmony(InstanceId);
-                }
-
-                instance.PatchAll(Assembly.GetExecutingAssembly());
-                IsPatched = true;
+                _instance = new Harmony(InstanceId);
             }
+
+            _instance.PatchAll(Assembly.GetExecutingAssembly());
+            IsPatched = true;
         }
 
         internal static void RemoveHarmonyPatches()
         {
-            if (instance != null && IsPatched)
-            {
-                instance.UnpatchAll(InstanceId);
-                IsPatched = false;
-            }
+            if (_instance == null || !IsPatched) return;
+
+            _instance.UnpatchAll(InstanceId);
+            IsPatched = false;
         }
     }
 }

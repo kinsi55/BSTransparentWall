@@ -7,15 +7,15 @@ namespace TransparentWall.Gameplay.Modifications
 {
     public class LIVWalls : MonoBehaviour
     {
-        public IEnumerator<WaitForEndOfFrame> ApplyGameCoreModifications()
+        public static IEnumerator<WaitForEndOfFrame> ApplyGameCoreModifications()
         {
             yield return new WaitForEndOfFrame();
 
             try
             {
-                FindObjectsOfType<LIV.SDK.Unity.LIV>().Where(x => TransparentWalls.livNames.Contains(x.name)).ToList().ForEach(l =>
+                FindObjectsOfType<LIV.SDK.Unity.LIV>().Where(x => TransparentWalls.LivNames.Contains(x.name)).ToList().ForEach(l =>
                 {
-                    TransparentWalls.layersToMask.ForEach(i =>
+                    TransparentWalls.LayersToMask.ForEach(i =>
                     {
                         l.SpectatorLayerMask |= 1 << i;
                     });
