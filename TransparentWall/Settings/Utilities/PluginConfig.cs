@@ -5,6 +5,6 @@
         public static PluginConfig Instance;
 
         public bool EnableForHeadset = false;
-        public bool DisableForLIVCamera = false;
+        public bool DisableForLivCamera = false;
     }
 }

@@ -12,10 +12,10 @@ namespace TransparentWall.Settings.UI
         }
 
         [UIValue("disable-in-liv")]
-        public bool DisableForLIVCamera
+        public bool DisableForLivCamera
         {
-            get => Configuration.DisableForLIVCamera;
-            set => Configuration.DisableForLIVCamera = value;
+            get => Configuration.DisableForLivCamera;
+            set => Configuration.DisableForLivCamera = value;
         }
     }
 }

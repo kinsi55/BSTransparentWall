@@ -4,10 +4,10 @@ using TransparentWall.Settings.Utilities;
 
 namespace TransparentWall.Settings
 {
-    public class Configuration
+    public static class Configuration
     {
         public static bool EnableForHeadset { get; internal set; }
-        public static bool DisableForLIVCamera { get; internal set; }
+        public static bool DisableForLivCamera { get; internal set; }
 
         // Culling layers
         public static int WallLayerMask => 25;
@@ -21,13 +21,13 @@ namespace TransparentWall.Settings
         internal static void Load()
         {
             EnableForHeadset = PluginConfig.Instance.EnableForHeadset;
-            DisableForLIVCamera = PluginConfig.Instance.DisableForLIVCamera;
+            DisableForLivCamera = PluginConfig.Instance.DisableForLivCamera;
         }
 
         internal static void Save()
         {
             PluginConfig.Instance.EnableForHeadset = EnableForHeadset;
-            PluginConfig.Instance.DisableForLIVCamera = DisableForLIVCamera;
+            PluginConfig.Instance.DisableForLivCamera = DisableForLivCamera;
         }
     }
 }
