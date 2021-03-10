@@ -27,9 +27,9 @@ namespace TransparentWall.HarmonyPatches.Patches
                 Camera.main.cullingMask &= ~(1 << Configuration.WallLayerMask);
             }
 
-            if (Configuration.EnableForHeadset || Configuration.DisableForLIVCamera)
+            if (Configuration.EnableForHeadset || Configuration.DisableForLivCamera)
             {
-                Renderer mesh = __instance.gameObject?.GetComponentInChildren<Renderer>(false);
+                var mesh = __instance.gameObject?.GetComponentInChildren<Renderer>(false);
                 if (mesh?.gameObject)
                 {
                     mesh.gameObject.layer = Configuration.WallLayerMask;

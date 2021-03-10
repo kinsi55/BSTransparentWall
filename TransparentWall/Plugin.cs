@@ -19,7 +19,7 @@ namespace TransparentWall
         [Init]
         public void Init(IPALogger logger, Config config, PluginMetadata metadata)
         {
-            Logger.log = logger;
+            Logger.Log = logger;
             Configuration.Init(config);
 
             if (metadata?.Version != null)
@@ -30,6 +30,7 @@ namespace TransparentWall
 
         [OnEnable]
         public void OnEnable() => Load();
+
         [OnDisable]
         public void OnDisable() => Unload();
 
@@ -45,7 +46,7 @@ namespace TransparentWall
             SettingsUI.CreateMenu();
             AddEvents();
 
-            Logger.log.Info($"{PluginName} v.{PluginVersion} has started.");
+            Logger.Log.Info($"{PluginName} v.{PluginVersion} has started.");
         }
 
         private void Unload()

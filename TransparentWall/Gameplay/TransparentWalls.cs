@@ -10,10 +10,7 @@ namespace TransparentWall.Gameplay
 {
     public class TransparentWalls : MonoBehaviour
     {
-        private LIVWalls LIVWalls = null;
-
-        public static readonly IList<string> livNames = new List<string> { "MenuMainCamera", "MainCamera", "LIV Camera" };
-        public static readonly List<int> layersToMask = new List<int> { Configuration.WallLayerMask, Configuration.MoveBackLayer };
+        private LivWalls _livWalls;
 
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Unity calls this")]
         private void Start()
@@ -23,22 +20,21 @@ namespace TransparentWall.Gameplay
                 ScoreSubmission.DisableSubmission(Plugin.PluginName);
             }
 
-            if (Configuration.DisableForLIVCamera)
-            {
-                if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Count() > 0)
-                {
-                    Configuration.MoveBackLayer = Resources.FindObjectsOfTypeAll<MoveBackWall>().First().gameObject.layer;
-                }
+            if (!Configuration.DisableForLivCamera) return;
 
-                LIVWalls = new LIVWalls();
-                StartCoroutine(LIVWalls.ApplyGameCoreModifications());
+            if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Any())
+            {
+                Configuration.MoveBackLayer = Resources.FindObjectsOfTypeAll<MoveBackWall>().First().gameObject.layer;
             }
+
+            _livWalls = gameObject.AddComponent<LivWalls>();
+            StartCoroutine(_livWalls.ApplyGameCoreModifications());
         }
 
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Unity calls this")]
         private void OnDestroy()
         {
-            LIVWalls = null;
+            _livWalls = null;
         }
     }
 }

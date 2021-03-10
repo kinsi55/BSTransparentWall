@@ -13,16 +13,16 @@ namespace TransparentWall.Settings.UI
         }
 
         [UIValue("disable-liv")]
-        public bool IsDisableForLIV
+        public bool IsDisableForLiv
         {
-            get => Configuration.DisableForLIVCamera;
-            set => Configuration.DisableForLIVCamera = value;
+            get => Configuration.DisableForLivCamera;
+            set => Configuration.DisableForLivCamera = value;
         }
 
         [UIAction("trigger-headset-toggle")]
         public void TriggerHeadsetEnable(bool val) => IsEnableForHeadset = val;
 
         [UIAction("trigger-liv-toggle")]
-        public void TriggerLIVDisable(bool val) => IsDisableForLIV = val;
+        public void TriggerLivDisable(bool val) => IsDisableForLiv = val;
     }
 }
