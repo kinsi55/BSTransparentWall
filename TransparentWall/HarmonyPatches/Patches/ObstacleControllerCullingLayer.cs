@@ -29,7 +29,7 @@ namespace TransparentWall.HarmonyPatches.Patches
 
             if (Configuration.EnableForHeadset || Configuration.DisableForLivCamera)
             {
-                var mesh = __instance.gameObject?.GetComponentInChildren<Renderer>(false);
+                Renderer mesh = __instance.gameObject?.GetComponentInChildren<Renderer>(false);
                 if (mesh?.gameObject)
                 {
                     mesh.gameObject.layer = Configuration.WallLayerMask;

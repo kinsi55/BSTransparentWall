@@ -18,9 +18,9 @@ namespace TransparentWall.Gameplay.Modifications
 
             try
             {
-                FindObjectsOfType<LIV.SDK.Unity.LIV>().Where(x => LivNames.Contains(x.name)).ToList().ForEach(l => 
+                FindObjectsOfType<LIV.SDK.Unity.LIV>().Where(x => LivNames.Contains(x.name)).ToList().ForEach(l =>
                 {
-                    LayersToMask.ForEach(i => 
+                    LayersToMask.ForEach(i =>
                     {
                         l.SpectatorLayerMask |= 1 << i;
                     });
