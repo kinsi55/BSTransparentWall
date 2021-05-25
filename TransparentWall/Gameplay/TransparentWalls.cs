@@ -14,11 +14,6 @@ namespace TransparentWall.Gameplay
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Unity calls this")]
         private void Start()
         {
-            if (Configuration.EnableForHeadset)
-            {
-                ScoreSubmission.DisableSubmission(Plugin.PluginName);
-            }
-
             if (!Configuration.DisableForLivCamera) return;
 
             if (Resources.FindObjectsOfTypeAll<MoveBackWall>().Any())
