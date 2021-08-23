@@ -14,7 +14,7 @@ namespace TransparentWall.HarmonyPatches.Patches
         {
             if (!Configuration.EnableForHeadset)
             {
-                Camera.main.cullingMask |= 1 << Configuration.WallLayerMask;
+                Camera.main?.cullingMask |= 1 << Configuration.WallLayerMask;
             }
         }
 
@@ -24,7 +24,7 @@ namespace TransparentWall.HarmonyPatches.Patches
         {
             if (Configuration.EnableForHeadset)
             {
-                Camera.main.cullingMask &= ~(1 << Configuration.WallLayerMask);
+                Camera.main?.cullingMask &= ~(1 << Configuration.WallLayerMask);
             }
 
             if (Configuration.EnableForHeadset || Configuration.DisableForLivCamera)
